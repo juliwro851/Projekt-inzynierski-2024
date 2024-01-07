@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1351893898271116980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2661069311595464257}
+  - component: {fileID: 1877809203064821223}
+  m_Layer: 0
+  m_Name: SampleDataToInclude
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2661069311595464257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351893898271116980}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1877809203064821223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351893898271116980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a271348ee13f1c468da3a0891e7913f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruitTextures:
+  - {fileID: 2800000, guid: 1b9fd1cd39557304eae466c72eb69a9e, type: 3}
+  - {fileID: 2800000, guid: f882a64b79d238a4cb2673a9d0aaa68b, type: 3}
+  - {fileID: 2800000, guid: dc17972c961a70e4e95d85bf650a5957, type: 3}
+  - {fileID: 2800000, guid: b8bf43b1190c1544ea6837856f605187, type: 3}
+  - {fileID: 2800000, guid: b6495a37db88c924d894112b0bb403e2, type: 3}
+  - {fileID: 2800000, guid: e9fd5d091fc74f94da3bc46c5b1ed276, type: 3}
+  - {fileID: 2800000, guid: 5bbf5387cdf2912409179122e8464c0f, type: 3}
+  - {fileID: 2800000, guid: cbfd5a58e0cf6b54f8ad9e910eabcf07, type: 3}
+  - {fileID: 2800000, guid: dce44a30d1594ce419c3276ce359f7df, type: 3}
+  - {fileID: 2800000, guid: ee028a16297378644b678f98dbc22f5e, type: 3}
+  - {fileID: 2800000, guid: b389cfa9b0a6aa649988ea6a549ff22a, type: 3}
+  - {fileID: 2800000, guid: 223b87913f5a4ee4fb2e3b42d38b49f9, type: 3}
+  - {fileID: 2800000, guid: a4ccc7f7cf4061f41b217ef579380218, type: 3}
+  - {fileID: 2800000, guid: 56ebc6a11ea1d494db9a6a546cc06d45, type: 3}
+  - {fileID: 2800000, guid: 8285d0795cf4df842813b0e846b04cf2, type: 3}
+  animalTextures:
+  - {fileID: 2800000, guid: ec982da2c772725469b35e66ef9ef764, type: 3}
+  - {fileID: 2800000, guid: 054a68b6b6e3ce544a6865d423839261, type: 3}
+  - {fileID: 2800000, guid: 528b70ed0ccde8d4a8249fc4526926e6, type: 3}
+  - {fileID: 2800000, guid: 55affdc555b904440a34b5adeb881da9, type: 3}
+  - {fileID: 2800000, guid: 08a07b6752e415e4893c2ba939e7d8df, type: 3}
+  - {fileID: 2800000, guid: f01d66f98afd95941968676745b2d4e8, type: 3}
+  - {fileID: 2800000, guid: d9070d3273b0f2c48933639ffc611165, type: 3}
+  - {fileID: 2800000, guid: 3762d41983d21384794a9b56f679383d, type: 3}
+  - {fileID: 2800000, guid: 593b58ed10e89cf43b6ce85d4cf1f649, type: 3}
+  - {fileID: 2800000, guid: 9c33e1b049c18ec408a589a020096e08, type: 3}
+  - {fileID: 2800000, guid: f81b76a5a89fd194397dc27aec6be167, type: 3}
+  - {fileID: 2800000, guid: 5f8d07957c667f4439f23f38cdd05ffe, type: 3}
+  - {fileID: 2800000, guid: b1258b478b1fecc4f8c9e3d31db16ec7, type: 3}
+  - {fileID: 2800000, guid: 3b3ccffd1661dc54d8a8971095a4a95c, type: 3}
+  - {fileID: 2800000, guid: afd1ca1814a793148b25daf2728cea8c, type: 3}
+  - {fileID: 2800000, guid: ef86a9fd7ff8f704587caca3ebd3aefb, type: 3}
+  - {fileID: 2800000, guid: 59172df793d076e4188e012e1c58613f, type: 3}
