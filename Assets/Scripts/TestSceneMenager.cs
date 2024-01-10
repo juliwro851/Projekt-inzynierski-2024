@@ -14,6 +14,7 @@ public class ResultsSceneMenager : Singleton<MainMenuMenager>
 
     }
 
+    [System.Obsolete]
     public void LoadResults()
     {
         sR.SelectNewProgram();

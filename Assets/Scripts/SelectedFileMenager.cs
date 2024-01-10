@@ -21,6 +21,7 @@ public class SelectedFileMenager : MonoBehaviour
         UpdateFoldersList();
         sM.UpdateFolderData();
         GetFoldersSampleImage();
+        //UpdateImagesCountDropdownStart();
     }
     public void UpdateFoldersList()
     {
@@ -144,6 +145,20 @@ public class SelectedFileMenager : MonoBehaviour
         imagesCountDropdown.options = options;
 
         imagesCountDropdown.value = selectedFilesImages.Count;
+    }
+
+    public void UpdateImagesCountDropdownStart()
+    {
+        int selected=0;
+
+        for (int i = 0; i < imagesCountDropdown.options.Count; i++)
+        {
+            if (imagesCountDropdown.options[i].text == PlayerPrefs.GetString("images-number"))
+            {
+                selected = i;
+            }
+        }
+        imagesCountDropdown.value = selected;
     }
 
 }

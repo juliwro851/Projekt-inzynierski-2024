@@ -182,16 +182,17 @@ public class SettingsMenager : MonoBehaviour
 
     public void OnToggleUserTutorial()
     {
-         SetUserTutorial(userTutorial);
+         SetUserTutorial(userTutorial.isOn);
     }
     public void OnToggleUserSettings()
     {
-        SetUserSettings(userSettings);
+        SetUserSettings(userSettings.isOn);
     }
 
     private void SetUserTutorial(bool status)
     {
         SetPref(USER_TUTORIAL_PREF, status);
+
     }
     private void SetUserSettings(bool status)
     {
@@ -217,7 +218,7 @@ public class SettingsMenager : MonoBehaviour
         {
             SetMouseControll(true);
         }
-        else if (mouse.isOn! && !keyboard.isOn)
+        else if (!mouse.isOn && !keyboard.isOn)
         {
             mouse.isOn = true;
         }
@@ -232,7 +233,7 @@ public class SettingsMenager : MonoBehaviour
         {
             SetKeyboardControll(true);
         }
-        else if (keyboard.isOn! && !mouse.isOn)
+        else if (!keyboard.isOn && !mouse.isOn)
         {
             keyboard.isOn = true;
         }
@@ -296,7 +297,7 @@ public class SettingsMenager : MonoBehaviour
     }
     public void OnToggleHighContrast()
     {
-        if (highContrast.isOn == true)
+        if (highContrast.isOn)
         {
             SetContrast(Contrast.high);
             normalContrast.isOn = false;
@@ -533,10 +534,10 @@ public class SettingsMenager : MonoBehaviour
     {
         SetImagesCount(int.Parse(imagesCountDropdown.options[imagesCountDropdown.value].text));
     }
+
     private void SetImagesCount(int imagesCount)
     {
         SetPref(IMAGES_NUMBER_PREF, imagesCount);
-
     }
     #endregion
 

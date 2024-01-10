@@ -12,25 +12,23 @@ public class UserSettingsMenager : MonoBehaviour
     [SerializeField] Button buttonNext;
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> dictionary = new Dictionary<string, Action>();
-    private bool listening = false;
 
     void Start()
     {
-        if (Sm.GetBoolPref("voice") && listening!)
+        if (SceneManager.GetActiveScene().name == "UserSettingsFontSize" && Sm.GetBoolPref("voice"))
         {
             dictionary.Add("level", Left);
             dictionary.Add("left", Left);
             dictionary.Add("problem", Right); 
             dictionary.Add("right", Right); 
-            //dictionary.Add("ok", Ok);
-            //dictionary.Add("talk", Ok);
             dictionary.Add("dalei", Ok);
             dictionary.Add("next", Ok);
+
+            Debug.Log("voice on");
 
             keywordRecognizer = new KeywordRecognizer(dictionary.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += OnVoiceRecognized;
             keywordRecognizer.Start();
-            listening = true;
         }
 
 
@@ -39,7 +37,10 @@ public class UserSettingsMenager : MonoBehaviour
             Sm.UpdateBrightnessToggles();
         }
         else if (SceneManager.GetActiveScene().name == "UserSettingsContrast")
+        {
             Sm.UpdateContrastToggles();
+
+        }
         else
             Sm.UpdateFontSizeToggles();
 
