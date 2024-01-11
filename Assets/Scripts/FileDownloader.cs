@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -6,24 +6,28 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
+
+// Klasa odpowiedzialna za pobieranie, zapisywanie i manipulowanie plikami w aplikacji.
 public class FileDownloader
 {
-
+    // Metoda zapisująca dane z obiektu SaveOverallResultsToJson do plików tekstowych.
     public void SaveOverallJson(SaveOverallResultsToJson clickData, string file)
     {
-
-        //string json = JsonUtility.ToJson(clickData);
+        // Konwersja danych z obiektu clickData na tekstowe reprezentacje.
         string clicksTxt = clickData.ClicksToString();
         string imInfoTxt = clickData.ImageInfoToString();
         string imOrderTxt = clickData.ImageOrderToString();
 
+        // Ustalenie ścieżki do katalogu zapisu.
         var dir = UnityEngine.Application.persistentDataPath + "/saved/overall/";
 
+        // Sprawdzenie, czy katalog istnieje, i ewentualne utworzenie go.
         if (!Directory.Exists(Path.GetDirectoryName(dir)))
         {
             Directory.CreateDirectory(Path.GetDirectoryName(dir));
         }
 
+        // Zapisywanie do plików tekstowych.
         string filePath = Path.Combine(dir, file + "CLICKS.txt");
 
         File.WriteAllText(filePath, clicksTxt);
@@ -38,28 +42,38 @@ public class FileDownloader
 
     }
 
+    // Metoda zapisująca dane z obiektu SaveSimpleResultsToJson do pliku JSON.
     public void SaveSimpleJson(SaveSimpleResultsToJson data, string file)
     {
-
+        // Konwersja obiektu SaveSimpleResultsToJson do formatu JSON.
         string json = JsonUtility.ToJson(data);
 
+        // Ustalenie ścieżki do katalogu zapisu.
         var dir = UnityEngine.Application.persistentDataPath + "/saved/";
 
+        // Sprawdzenie, czy katalog istnieje, i ewentualne utworzenie go.
         if (!Directory.Exists(Path.GetDirectoryName(dir)))
         {
             Directory.CreateDirectory(Path.GetDirectoryName(dir));
         }
 
+        // Zapisanie do pliku JSON.
         string filePath = Path.Combine(dir, file);
 
         File.WriteAllText(filePath, json);
 
     }
+
+    // Metoda wczytująca dane z pliku JSON do obiektu SaveSimpleResultsToJson.
     public SaveSimpleResultsToJson LoadSimpleJson(string path)
     {
+        // Sprawdzenie, czy plik istnieje.
         if (System.IO.File.Exists(path))
         {
+            // Odczytanie zawartości pliku JSON.
             string loadedJson = System.IO.File.ReadAllText(path);
+
+            // Konwersja JSON na obiekt SaveSimpleResultsToJson.
             SaveSimpleResultsToJson loadedData = JsonUtility.FromJson<SaveSimpleResultsToJson>(loadedJson);
 
             return loadedData;
@@ -71,45 +85,57 @@ public class FileDownloader
         }
     }
 
+    // Metoda zapisująca teksturę do pliku w formacie JPG w określonym folderze.
     public void SaveTexture(Texture2D data, string folder, string file)
     {
+        // Konwersja tekstury do tablicy bajtów w formacie JPG.
         byte[] jpgBytes = data.EncodeToJPG(); data.EncodeToPNG();
+
+        // Ustalenie ścieżki do katalogu zapisu.
         string dataPath = UnityEngine.Application.persistentDataPath + "/data/"+ folder + "/";
 
+        // Sprawdzenie, czy katalog istnieje, i ewentualne utworzenie go.
         if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
         {
             Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
         }
 
+        // Zapisanie tekstury do pliku.
         File.WriteAllBytes(dataPath + file, jpgBytes);
-
-
     }
 
-
+    // Metoda wczytująca tekstury z folderu o określonej nazwie.
     public List<Texture2D> LoadTexturesFromFolder(string folderName)
     {
+        // Lista do przechowywania wczytanych tekstur.
         List<Texture2D> TexturestoReturn = new List<Texture2D>();
+
+        // Ustalenie ścieżki do folderu z teksturami.
         string dataPath = UnityEngine.Application.persistentDataPath + "/data/" + folderName + "/";
 
+        // Pobranie listy plików z folderu.
         string[] files = Directory.GetFiles(dataPath);
 
+        // Pętla przetwarzająca każdy plik w folderze.
         foreach (string fi in files)
         {
-           string file = fi.Replace("\\", "/");
+            // Zamiana ukośników w ścieżce pliku na odwrotne ukośniki.
+            string file = fi.Replace("\\", "/");
 
+            // Sprawdzenie, czy plik istnieje.
             if (File.Exists(file))
             {
+                // Odczytanie zawartości pliku jako tablicy bajtów.
                 byte[] fileData = File.ReadAllBytes(file);
 
+                // Utworzenie nowego obiektu Texture2D.
                 Texture2D texture = new Texture2D(2, 2);
 
-                // Load the image data into the Texture2D
+                // Wczytanie danych obrazu do obiektu Texture2D.
                 if (texture.LoadImage(fileData))
                 {
+                    // Dodanie wczytanej tekstury do listy.
                     TexturestoReturn.Add(texture);
-
-                    //Debug.Log("Image loaded successfully!");
                 }
                 else
                 {
@@ -120,43 +146,7 @@ public class FileDownloader
             {
                 Debug.LogError("File not found: " + file);
             }
-
         }
-
         return TexturestoReturn;
     }
-
-
-    private static string GetFilePath(string FolderName, string FileName = "")
-    {
-        string filePath;
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            // mac
-            filePath = Path.Combine(Application.streamingAssetsPath, ("data/" + FolderName));
-
-            if (FileName != "")
-                filePath = Path.Combine(filePath, (FileName + ".txt"));
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        // windows
-        filePath = Path.Combine(UnityEngine.Application.persistentDataPath, ("data/" + FolderName));
-
-        if (FileName != "")
-            filePath = Path.Combine(filePath, (FileName + ".txt"));
-#elif UNITY_ANDROID
-            // android
-            filePath = Path.Combine(Application.persistentDataPath, ("data/" + FolderName));
-
-            if(FileName != "")
-                filePath = Path.Combine(filePath, (FileName + ".txt"));
-#elif UNITY_IOS
-            // ios
-            filePath = Path.Combine(Application.persistentDataPath, ("data/" + FolderName));
-
-            if(FileName != "")
-                filePath = Path.Combine(filePath, (FileName + ".txt"));
-#endif
-        return filePath;
-    }
-
-
 }

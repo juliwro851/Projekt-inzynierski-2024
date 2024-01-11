@@ -1,14 +1,17 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// Klasa zarządzająca głównym menu, dziedziczy z klasy Singleton<MainMenuMenager>
 public class MainMenuMenager : Singleton<MainMenuMenager>
 {
-    [SerializeField] public Toggle settingsToggle;
-    [SerializeField] public Toggle tutorialToggle;
+    [SerializeField] public Toggle settingsToggle; // Przełącznik dla ustawień
+    [SerializeField] public Toggle tutorialToggle; // Przełącznik dla tutorialu
+
+    // Metoda do ładowania egzaminu na podstawie ustawień użytkownika
     public void LoadStartExam()
     {
         if (tutorialToggle.isOn)
@@ -22,20 +25,21 @@ public class MainMenuMenager : Singleton<MainMenuMenager>
         }
         else
             SceneManager.LoadScene("Countdown");
-        //get toggle
     }
+
+    // Metoda do ładowania ustawień egzaminatora
     public void LoadExaminatorSettings()
     {
         SceneManager.LoadScene("ExaminatorSettings");
-        //SceneManager.Instance.LoadScene(SceneEnum.ExaminatorSettings);
     }
 
+    // Metoda do ładowania wyników
     public void LoadResults()
     {
         SceneManager.LoadScene("Results");
-        //SceneManager.Instance.LoadScene(SceneEnum.MainMenu);
     }
 
+    // Metoda do wyjścia z programu
     public void ExitProgram()
     {
         Application.Quit();

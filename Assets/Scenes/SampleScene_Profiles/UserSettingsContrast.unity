@@ -244,7 +244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 149142169}
-  - component: {fileID: 149142168}
+  - component: {fileID: 149142170}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -252,7 +252,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &149142168
+--- !u!4 &149142169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149142167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 827.0271, y: 737.10913, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &149142170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,21 +302,6 @@ MonoBehaviour:
   imagesMaxTime: {fileID: 0}
   imagesMinTime: {fileID: 0}
   imagesPercentTime: {fileID: 0}
---- !u!4 &149142169
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149142167}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 827.0271, y: 737.10913, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &151169389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,7 +1050,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 149142168}
+      - m_Target: {fileID: 149142170}
         m_TargetAssemblyTypeName: SettingsMenager, Assembly-CSharp
         m_MethodName: OnToggleHigherlContrast
         m_Mode: 1
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 149142168}
+      - m_Target: {fileID: 149142170}
         m_TargetAssemblyTypeName: SettingsMenager, Assembly-CSharp
         m_MethodName: OnToggleHighContrast
         m_Mode: 1
@@ -1527,7 +1527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 84ecd6f0cf3d09a4fbd216cb43b98911, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 50f75946279253d4b983eda41111cdeb, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
@@ -1753,7 +1753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a74c178cde05e849b6284edc96c0e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sm: {fileID: 149142168}
+  Sm: {fileID: 149142170}
   buttonNext: {fileID: 1207665544}
 --- !u!4 &1258815943
 Transform:
@@ -2217,7 +2217,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 149142168}
+      - m_Target: {fileID: 149142170}
         m_TargetAssemblyTypeName: SettingsMenager, Assembly-CSharp
         m_MethodName: OnToggleNormalContrast
         m_Mode: 1

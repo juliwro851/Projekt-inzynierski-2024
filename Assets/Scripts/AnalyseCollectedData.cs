@@ -1,18 +1,21 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Unity.Collections.AllocatorManager;
 
+// Klasa odpowiedzialna za analizę zebranych danych, takich jak kliknięcia, odpowiedzi, czasy reakcji, itp.
 public class AnalyseCollectedData 
 {
+    // Dane zebrane podczas eksperymentu.
     private static List<ImageInfo> collectedData;
-    private float averageReactionTime = 0.25f;
+    private float averageReactionTime = 0.25f; // Domyślna średnia czasu reakcji.
     private static List<int> imagesOrder;
     private static List<Click> clicks;
     private static Click worstClick, bestClick;
     private static int numberOfSavedAsPrev = 0;
 
+    // Metoda analizująca zebrane dane, przekazywane jako listy obiektów ImageInfo, int i Click.
     public void AnalyseData(List<ImageInfo> collectedImageInfo, List<int> collectedImagesOrder, List<Click> collectedClicks)
     {
         collectedData = collectedImageInfo;
@@ -21,11 +24,13 @@ public class AnalyseCollectedData
         RemoveTooShortReactionTime();
     }
 
+    // Metoda zwracająca liczbę kliknięć zebranych podczas eksperymentu.
     public int GetNumberOfClicks()
     {
         return clicks.Count;
     }
 
+    // Metoda obliczająca procent poprawnych odpowiedzi.
     public int RightPercent()
     {
         float correctAnswers = 0;
@@ -52,6 +57,8 @@ public class AnalyseCollectedData
 
         return returnMessage;
     }
+
+    // Metoda zwracająca informację o liczbie poprawnych odpowiedzi.
     public string AccurateAnswers()
     {
         int correctAnswers = 0;
@@ -77,6 +84,7 @@ public class AnalyseCollectedData
         return returnMessage;
     }
 
+    // Metoda obliczająca procent błędnych odpowiedzi.
     public int WrongPercent()
     {
         float wrongAnswers = 0, totalClicks = 0, totalPhotos = 0;
@@ -100,6 +108,7 @@ public class AnalyseCollectedData
         return returnMessage;
     }
 
+    // Metoda zwracająca informację o liczbie błędnych odpowiedzi.
     public string WrongAnswers()
     {
         int wrongAnswers = 0, totalClicks = 0;
@@ -119,6 +128,7 @@ public class AnalyseCollectedData
         return returnMessage;
     }
 
+    // Metoda obliczająca średni czas reakcji.
     public float AverageReactionTime()
     {
         List<float> reactionTimes = new List<float>();
@@ -146,7 +156,7 @@ public class AnalyseCollectedData
 
     }
 
-
+    // Metoda zwracająca najlepszy czas reakcji.
     public float BestReactionTime()
     {
         List<float> reactionTimes = new List<float>();
@@ -173,6 +183,7 @@ public class AnalyseCollectedData
         return reactionTime;
     }
 
+    // Metoda zwracająca najgorszy czas reakcji.
     public float WorstReactionTime()
     {
         ImageInfo ImIn = new();
@@ -200,6 +211,7 @@ public class AnalyseCollectedData
         return reactionTime;
     }
 
+    // Metoda zwracająca obraz związany z najgorszym czasem reakcji.
     public Texture WorstReactionTimeImage()
     {
         ImageInfo ImIn = new();
@@ -226,11 +238,14 @@ public class AnalyseCollectedData
 
         return worstClick.connectedImageInfo.usedTexture;
     }
+
+    // Metoda zwracająca obraz związany z najlepszym czasem reakcji.
     public Texture BestReactionTimeImage()
     {
         List<float> reactionTimes = new List<float>();
         float reactionTime = 100;
 
+        // Iteracja przez kliknięcia w poszukiwaniu najlepszego czasu reakcji.
         foreach (Click click in clicks)
         {
             if (click.timestamp >= click.connectedImageInfo.timeOfAppearence[click.orderInAppearence]
@@ -242,20 +257,20 @@ public class AnalyseCollectedData
                     reactionTime = click.timestamp - click.connectedImageInfo.timeOfAppearence[click.orderInAppearence];
                     bestClick = click;
                 }
-
             }
-
         }
-
         reactionTime = (float)Math.Round(reactionTime, 2);
         return bestClick.connectedImageInfo.usedTexture;
     }
+
+    // Metoda zwracająca numer sesji, w której wystąpił najdłuższy czas reakcji.
     public int WorstReactionTimeAppeared()
     {
         ImageInfo ImIn = new();
         float reactionTime = 0;
         int r = 0;
 
+        // Iteracja przez kliknięcia w poszukiwaniu najdłuższego czasu reakcji.
         foreach (Click click in clicks)
         {
             if (click.wasCorrect == true)
@@ -276,6 +291,8 @@ public class AnalyseCollectedData
 
         return r;
     }
+
+    // Metoda zwracająca numer sesji, w której wystąpił najkrótszy czas reakcji.
     public int BestReactionTimeAppeared()
     {
         List<float> reactionTimes = new List<float>();
@@ -300,6 +317,7 @@ public class AnalyseCollectedData
         return r;
     }
 
+    // Metoda usuwająca zbyt krótkie czasy reakcji i przenosząca kliknięcia do poprzedniej sesji.
     void RemoveTooShortReactionTime()
     {
         Click C = new();
@@ -307,6 +325,7 @@ public class AnalyseCollectedData
 
         averageReactionTime += PlayerPrefs.GetFloat("allow-save-click-as-prev");
 
+        // Iteracja przez zebrane dane w poszukiwaniu zbyt krótkich czasów reakcji.
         foreach (ImageInfo info in collectedData)
         {
             for (int i = 0; i < info.displayId.Count; i++)
@@ -332,6 +351,8 @@ public class AnalyseCollectedData
         }
     }
 
+
+    // Metoda przenosząca kliknięcie do poprzedniej sesji.
     void PlaceInPreviousImageInfo(int imageId, int displayId, float clickTime)
     {
 
@@ -356,6 +377,7 @@ public class AnalyseCollectedData
         }
     }
 
+    // Metoda zwracająca liczbę kliknięć zapisanych jako poprzednie sesje.
     public int GetNumberOfSavedAsPrev()
     {
         return numberOfSavedAsPrev;

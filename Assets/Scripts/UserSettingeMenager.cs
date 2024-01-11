@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,32 +6,41 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
 
+// Klasa zarządzająca ustawieniami użytkownika
 public class UserSettingsMenager : MonoBehaviour
 {
+    // Referencja do menedżera ustawień (SettingsManager) i przycisku w interfejsie użytkownika.
     [SerializeField] SettingsMenager Sm;
     [SerializeField] Button buttonNext;
+
+    // Obiekt do rozpoznawania słów kluczowych dla sterowania głosowego.
     private KeywordRecognizer keywordRecognizer;
+
+    // Słownik przechowujący słowa kluczowe i odpowiadające im akcje.
     private Dictionary<string, Action> dictionary = new Dictionary<string, Action>();
 
+    // Metoda wywoływana przy starcie sceny.
     void Start()
     {
+        // Inicjalizacja rozpoznawania głosu, jeśli jest włączone w ustawieniach i scena to "UserSettingsFontSize"
         if (SceneManager.GetActiveScene().name == "UserSettingsFontSize" && Sm.GetBoolPref("voice"))
         {
             dictionary.Add("level", Left);
             dictionary.Add("left", Left);
-            dictionary.Add("problem", Right); 
+            dictionary.Add("pravel", Right); 
             dictionary.Add("right", Right); 
             dictionary.Add("dalei", Ok);
             dictionary.Add("next", Ok);
 
             Debug.Log("voice on");
 
+            // Inicjalizacja rozpoznawania słów kluczowych
             keywordRecognizer = new KeywordRecognizer(dictionary.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += OnVoiceRecognized;
             keywordRecognizer.Start();
         }
 
-
+        // Aktualizacja przełączników jasności, kontrastu i rozmiaru czcionki w zależności od aktywnej sceny
         if (SceneManager.GetActiveScene().name == "UserSettingsBrightness")
         {
             Sm.UpdateBrightnessToggles();
@@ -46,12 +55,14 @@ public class UserSettingsMenager : MonoBehaviour
 
     }
 
+    // Obsługa zdarzenia rozpoznania słowa kluczowego
     private void OnVoiceRecognized(PhraseRecognizedEventArgs speech)
     {
         Debug.Log(speech.text);
         dictionary[speech.text].Invoke();
     }
 
+    // Funkcje do nawigacji w ustawieniach
     private void Right()
     {
         if (SceneManager.GetActiveScene().name == "UserSettingsBrightness")
@@ -61,6 +72,8 @@ public class UserSettingsMenager : MonoBehaviour
         else
             NextFontSize();
     }
+
+
     private void Left()
     {
         if (SceneManager.GetActiveScene().name == "UserSettingsBrightness")
@@ -75,6 +88,8 @@ public class UserSettingsMenager : MonoBehaviour
         GoToTheNextScene();
     }
 
+    // Funkcje obsługujące ruch w prawo, lewo i potwierdzenie
+    // ...
 
     void Update()
     {
@@ -107,6 +122,8 @@ public class UserSettingsMenager : MonoBehaviour
         }
     }
 
+    // Funkcje obsługujące zmiany jasności, kontrastu i rozmiaru czcionki
+    // ...
     private void NextBrightness()
     {
         if (Sm.normalBrightness.isOn)
@@ -192,7 +209,7 @@ public class UserSettingsMenager : MonoBehaviour
         }
     }
 
-
+    // Funkcja do przejścia do następnej sceny
     public void GoToTheNextScene()
     {
         if (SceneManager.GetActiveScene().name == "UserSettingsFontSize")

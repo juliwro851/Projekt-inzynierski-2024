@@ -1,8 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
 
+// Klasa odpowiedzialna za tasowanie listy identyfikatorów obrazów z uwzględnieniem powtarzających się elementów.
 public class ImagesShuffle
 {
     private List<int> imagesDisplayOrder = new List<int>();
@@ -13,6 +14,7 @@ public class ImagesShuffle
     int a, b = 0;
     String message;
 
+    // Metoda tworząca nową listę obrazów z uwzględnieniem powtarzających się obrazów.
     public List<int> CreateNewImageList(int numberOfImages, double partRepeatedPercent)
     {
         a = 0; b=0;
@@ -116,6 +118,8 @@ public class ImagesShuffle
         CorrectRepeatedList(imagesDisplayOrder);
         return imagesDisplayOrder;
     }
+
+    // Metoda tworząca tymczasową listę identyfikatorów obrazów.
     private void CreateTempImageIdLists(int numberOfImages, double partRepeatedPercent)
     {
         int partToRepeat = 0;
@@ -137,6 +141,7 @@ public class ImagesShuffle
 
     }
 
+    // Metoda losująca elementy na liście.
     void RandomiseList(List<int> list) {
 
         int length = list.Count;
@@ -149,6 +154,8 @@ public class ImagesShuffle
             list[length] = value;
         }
     }
+
+    // Metoda poprawiająca listę z powtarzającymi się elementami.
     void CorrectRepeatedList(List<int> list)
     {
         for(int i = 1; i < list.Count-1; i++)
@@ -189,17 +196,20 @@ public class ImagesShuffle
         }
     }
 
+    // Metoda wywoływana na początku, inicjująca tasowanie obrazów.
     private void Start()
     {
         Start(imagesDisplayOrder);
     }
 
+    // Metoda wywołująca tasowanie obrazów i wyświetlająca komunikat z posortowaną listą.
     void Start(List<int> imagesDisplayOrder)
     {
         //CreateNewImageList();
         //displayListMessage(imagesDisplayOrder);
     }
 
+    // Metoda wyświetlająca komunikat z listą identyfikatorów obrazów.
     void displayListMessage(List<int> list)
     {
         message = "";
@@ -210,6 +220,7 @@ public class ImagesShuffle
         Debug.Log(message);
     }
 
+    // Metoda czyszcząca wszystkie listy w klasie.
     void ClearAllLists(){
 
         imagesDisplayOrder.Clear();
