@@ -9,28 +9,36 @@ using TMPro;
 using System;
 using Unity.VisualScripting;
 
-// Klasa odpowiedzialna za zarządzanie plikami w aplikacji.
+/// <summary>
+/// Class responsible for managing files in the application.
+/// </summary>
 public class FileMenager : MonoBehaviour
 {
-    // Referencje do innych managerów i komponentów w scenie.
+    /// <summary>
+    /// References to other managers and components in the scene.
+    /// </summary>    
     public SelectedFileMenager sFM;
     public ShowResults sR;
 
-    // Referencja do pola tekstowego do wprowadzania nazwy folderu.
+    /// <summary>
+    /// Reference to the text input field for entering folder names.
+    /// </summary>
     [SerializeField] TMP_InputField folderNameInput;
 
-    // Metoda obsługująca próbę otwarcia przeglądarki plików dla folderu.
+    /// <summary>
+    /// Handles the attempt to open the file browser for a folder.
+    /// </summary>
     [Obsolete]
     public void TryOpeningFileBrowser()
     {
-        // Sprawdzenie, czy nazwa folderu nie jest pusta.
+        // Check if the folder name is not empty.
         if (folderNameInput.text == "")
         {
             Debug.Log("Can't upload an empty file");
             return;       
         }
 
-        // Sprawdzenie, czy istnieje folder o podanej nazwie.
+        // Check if a folder with the given name exists.
         bool fountMatchingFolderName = false;
         foreach (string folderName in sFM.GetFoldersList())
         {
@@ -38,7 +46,7 @@ public class FileMenager : MonoBehaviour
                 fountMatchingFolderName = true;
         }
 
-        // Jeśli znaleziono folder o takiej nazwie, wyświetl komunikat i przerwij działanie metody.
+        // If a folder with that name is found, display a message and exit the method.
         if (fountMatchingFolderName)
         {
             Debug.Log("Can't upload existing file name");
@@ -48,78 +56,87 @@ public class FileMenager : MonoBehaviour
             OpenFileBrowser(folderNameInput.text);
     }
 
-    // Metoda obsługująca próbę otwarcia przeglądarki plików dla wyników.
+
+    /// <summary>
+    /// Handles the attempt to open the file browser for results.
+    /// </summary>
     [Obsolete]
     public void TryOpeningResultsFileBrowser()
     {
         OpenResultsBrowser();
     }
 
-
-    // Metoda otwierająca przeglądarkę plików dla konkretnego folderu.
+    /// <summary>
+    /// Opens the file browser for a specific folder.
+    /// </summary>
+    /// <param name="folderName">Folder name.</param>
     [Obsolete]
     public void OpenFileBrowser(string folderName)
     {
-        // Domyślna nazwa pliku.
+        // Default file name.
         String fileName ="default";
 
-        // Ustawienie filtrów dla plików obrazów.
+        // Set filters for image files.
         FileBrowser.SetFilters(true, new FileBrowser.Filter("Images", ".jpg", ".png"));
         FileBrowser.SetDefaultFilter(".jpg");
 
-        // Rozpoczęcie korutyny odpowiedzialnej za wyświetlenie okna dialogowego przeglądarki plików.
+        // Start coroutine responsible for displaying the file browser dialog.
         StartCoroutine(ShowLoadDialogCoroutine());
 
+
+        /// <summary>
+        /// Coroutine responsible for displaying the file browser dialog.
+        /// </summary>
         IEnumerator ShowLoadDialogCoroutine()
         {
-            // Oczekiwanie na wybór plików i folderów.
+            // Wait for the selection of files and folders.
             yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.FilesAndFolders, true, null, null, "Load Files and Folders", "Load");
 
-            // Pętla wymuszająca ponowne wybranie plików, jeśli ilość wybranych plików jest mniejsza niż 6.
+            // Loop forcing re-selection of files if the number of selected files is less than 6.
             while (FileBrowser.Result.Length < 6)
             {
                 yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.FilesAndFolders, true, null, null, "Load Files and Folders", "Load");
             }
 
-            // Sprawdzenie, czy operacja zakończyła się sukcesem.
+            // Check if the operation was successful.
             if (FileBrowser.Success)
             {
-                // Obiekt do pobierania plików.
+                // File downloader object.
                 FileDownloader fd = new FileDownloader();
 
-                // Pętla przetwarzająca każdy wybrany plik.
+                // Loop processing each selected file.
                 for (int i = 0; i < FileBrowser.Result.Length; i++)
                 {
-                    // Zamiana ukośników w ścieżce pliku na odwrotne ukośniki.
+                    // Replace forward slashes with backward slashes in the file path.
                     FileBrowser.Result[i] = FileBrowser.Result[i].Replace("\\", "/");
 
                     Console.ReadLine();
 
-                    // Tworzenie żądania sieciowego w celu pobrania tekstury.
+                    // Create a network request to download the texture.
                     UnityWebRequest www = UnityWebRequestTexture.GetTexture("file:///" + FileBrowser.Result[i]);
                     yield return www.SendWebRequest();
 
-                    // Obsługa błędów pobierania tekstury.
+                    // Handle texture download errors.
                     if (www.isNetworkError || www.isHttpError)
                     {
                         Debug.Log(www.error);
                     }
                     else
                     {
-                        // Konwersja pobranej tekstury na obiekt Texture2D.
+                        // Convert the downloaded texture to a Texture2D object.
                         Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-                        // Pobranie nazwy pliku z pełnej ścieżki.
+                        // Get the file name from the full path.
                         fileName = Path.GetFileName(FileBrowser.Result[i]);
 
-                        // Zapisanie tekstury w podanym folderze.
+                        // Save the texture in the specified folder.
                         fd.SaveTexture(myTexture, folderName, fileName);
                     }
 
-                    // Aktualizacja listy folderów po dodaniu nowego folderu.
+                    // Update the folder list after adding a new folder.
                     sFM.UpdateFoldersListAfterNewFolderAdded(folderName);
 
-                    // Wyczyszczenie pola tekstowego.
+                    // Clear the text field.
                     folderNameInput.text = "";
                 }
             }
@@ -128,20 +145,23 @@ public class FileMenager : MonoBehaviour
         
     }
 
-    // Metoda otwierająca przeglądarkę plików dla wyników.
+    /// <summary>
+    /// Opens the file browser for results.
+    /// </summary>
     [Obsolete]
     public void OpenResultsBrowser()
     {
-        // Ustawienie domyślnego filtru na pliki JSON.
+        // Set the default filter to JSON files.
         FileBrowser.SetDefaultFilter(".json");
 
-        // Obiekt do zapisu wyników do pliku JSON.
+        // Start coroutine responsible for displaying the file browser dialog.
         SaveSimpleResultsToJson save = new();
 
-
-        // Rozpoczęcie korutyny odpowiedzialnej za wyświetlenie okna dialogowego przeglądarki plików.
+        /// <summary>
+        /// Coroutine responsible for displaying the file browser dialog.
+        /// </summary>
         StartCoroutine(ShowLoadDialogCoroutine());
-
+        
         IEnumerator ShowLoadDialogCoroutine()
         {
             // Ustawienie domyślnej ścieżki do katalogu zapisu.
@@ -153,10 +173,10 @@ public class FileMenager : MonoBehaviour
             // Sprawdzenie, czy operacja zakończyła się sukcesem.
             if (FileBrowser.Success)
             {
-                // Obiekt do pobierania plików.
+                // File downloader object.
                 FileDownloader fd = new FileDownloader();
 
-                // Wczytanie pliku JSON i wyświetlenie wyników.
+                // Load the JSON file and display the results.
                 save = fd.LoadSimpleJson(FileBrowser.Result[0]);
                 sR.DisplayResults(save);
             }

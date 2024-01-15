@@ -7,7 +7,9 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
-// Klasa zarządzająca wyborem folderu i ilości obrazów w aplikacji.
+/// <summary>
+/// Class managing the selection of a folder and the number of images in the application.
+/// </summary>
 public class SelectedFileMenager : MonoBehaviour
 {
 
@@ -17,7 +19,9 @@ public class SelectedFileMenager : MonoBehaviour
     [SerializeField] SettingsMenager sM;
     public event Action<int> OnSelectedValueChanged;
 
-    // Metoda wywoływana przy starcie aplikacji.
+    /// <summary>
+    /// Method called on application start.
+    /// </summary>
     void Start()
     {
         UpdateFoldersList();
@@ -26,7 +30,9 @@ public class SelectedFileMenager : MonoBehaviour
         //UpdateImagesCountDropdownStart();
     }
 
-    // Metoda aktualizująca listę dostępnych folderów.
+    /// <summary>
+    /// Method updating the list of available folders.
+    /// </summary>
     public void UpdateFoldersList()
     {
         string[] usedList = GetFoldersList();
@@ -35,13 +41,18 @@ public class SelectedFileMenager : MonoBehaviour
         InitValues(usedList);
     }
 
-    // Metoda wywoływana podczas zniszczenia obiektu. Usuwa nasłuchiwanie zdarzeń zmiany wartości w rozwijanej liście folderów.
+    /// <summary>
+    /// Method called when the object is destroyed. Removes the event listener for value changes in the folder dropdown.
+    /// </summary>
     void OnDestroy()
     {
         foldersDropdown.onValueChanged.RemoveListener(HandleSelectedValueChanged);
     }
 
-    // Inicjalizuje wartości w rozwijanej liście folderów na podstawie dostępnych etykiet.
+    /// <summary>
+    /// Initializes values in the folder dropdown based on the available labels.
+    /// </summary>
+    /// <param name="optionLabels">Array of folder names.</param>
     public void InitValues(string[] optionLabels)
     {
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
@@ -65,7 +76,10 @@ public class SelectedFileMenager : MonoBehaviour
         foldersDropdown.value = selected;
     }
 
-    // Aktualizuje listę folderów po dodaniu nowego folderu i ustawia wybrany folder w rozwijanej liście.
+    /// <summary>
+    /// Updates the folder list after adding a new folder and sets the selected folder in the dropdown list.
+    /// </summary>
+    /// <param name="newFolderName">Name of the newly added folder.</param>
     public void UpdateFoldersListAfterNewFolderAdded(string newFolderName)
     {
         string[] optionLabels = GetFoldersList();
@@ -93,13 +107,19 @@ public class SelectedFileMenager : MonoBehaviour
         GetFoldersSampleImage();
     }
 
-    // Obsługuje zmianę wartości w rozwijanej liście folderów i wywołuje zdarzenie OnSelectedValueChanged.
+    /// <summary>
+    /// Handles the value change in the folder dropdown and invokes the OnSelectedValueChanged event.
+    /// </summary>
+    /// <param name="trash">Unused parameter.</param>
     private void HandleSelectedValueChanged(int trash)
     {
         OnSelectedValueChanged?.Invoke(foldersDropdown.value);
     }
 
-    // Pobiera listę folderów dostępnych w aplikacji.
+    /// <summary>
+    /// Gets the list of available folders.
+    /// </summary>
+    /// <returns>Array of folder names.</returns>
     public string[] GetFoldersList()
     {
         string fullPath;
@@ -119,7 +139,9 @@ public class SelectedFileMenager : MonoBehaviour
         return returnFolderList;
     }
 
-    // Pobiera przykładowy obraz dla wybranego folderu i aktualizuje obraz w interfejsie.
+    /// <summary>
+    /// Gets a sample image for the selected folder and updates the image in the interface.
+    /// </summary>
     public void GetFoldersSampleImage()
     {        
         String folderName = foldersDropdown.options[foldersDropdown.value].text;
@@ -143,28 +165,33 @@ public class SelectedFileMenager : MonoBehaviour
     }
 
 
-    // Metoda do aktualizacji rozwijanego menu z ilością obrazów
+    /// <summary>
+    /// Updates the dropdown menu with the number of images.
+    /// </summary>
+    /// <param name="selectedFilesImages">List of selected images.</param>
     public void UpdateImagesCountDropdown(List<Texture2D> selectedFilesImages)
     {
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
-        // Dodaj opcje dla ilości obrazów, zaczynając od 6 i kończąc na ilości dostępnych obrazów
+        // Add options for the number of images, starting from 6 and ending at the available number of images
         for (int i = 6; i <= selectedFilesImages.Count; i++)
         {
             options.Add(new TMP_Dropdown.OptionData(i.ToString()));
         }
         imagesCountDropdown.options = options;
 
-        // Ustaw wartość rozwijanego menu na ilość dostępnych obrazów
+        // Set the dropdown value to the available number of images
         imagesCountDropdown.value = selectedFilesImages.Count;
     }
 
-    // Metoda do początkowej aktualizacji rozwijanego menu z ilością obrazów na podstawie danych z PlayerPrefs
+    /// <summary>
+    /// Initial update of the dropdown menu with the number of images based on PlayerPrefs data.
+    /// </summary>
     public void UpdateImagesCountDropdownStart()
     {
         int selected=0;
 
-        // Przeszukaj opcje rozwijanego menu, aby znaleźć indeks zapisanej liczby obrazów w PlayerPrefs
+        // Search dropdown options to find the index of the saved number of images in PlayerPrefs
         for (int i = 0; i < imagesCountDropdown.options.Count; i++)
         {
             if (imagesCountDropdown.options[i].text == PlayerPrefs.GetString("images-number"))
@@ -173,7 +200,7 @@ public class SelectedFileMenager : MonoBehaviour
             }
         }
 
-        // Ustaw wartość rozwijanego menu na znaleziony indeks
+        // Set the dropdown value to the found index
         imagesCountDropdown.value = selected;
     }
 

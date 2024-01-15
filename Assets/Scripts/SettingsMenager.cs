@@ -3,12 +3,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Klasa zarządzająca ustawieniami gracza
+/// <summary>
+/// Class responsible for managing player settings.
+/// </summary>
 public class SettingsMenager : MonoBehaviour
 {
     #region Settings Component References
 
-    // Referencje do komponentów UI
+    // References to UI components
     public Toggle userTutorial;
     public Toggle userSettings;
 
@@ -45,7 +47,7 @@ public class SettingsMenager : MonoBehaviour
 
     #region Player Pref Key Constance
 
-    // Stałe klucze PlayerPrefs
+    // PlayerPrefs key constants
     private const string USER_TUTORIAL_PREF = "user-tutorial";
     private const string USER_SETTINGS_PREF = "user-settings";
     
@@ -71,10 +73,10 @@ public class SettingsMenager : MonoBehaviour
 
     #region Monobehavior API
 
-    // Metoda wywoływana przy starcie obiektu
+    // Method called when the object starts
     void Start()
     {
-        // Aktualizuj przełączniki, jeśli są dostępne
+        // Update toggles if available
         if (userSettings && userTutorial)
             UpdateTutorialandSettingsToggles();
 
@@ -110,10 +112,10 @@ public class SettingsMenager : MonoBehaviour
 
     #region Allow Save Click As Prev
 
-    // Metoda do aktualizacji przełączników czasu reakcji
+    // Method to update reaction time toggles
     public void UpdateAllowSaveClickAsPrevToggles()
     {
-        // Sprawdź zapisany czas reakcji i ustaw odpowiedni przełącznik
+        // Check the saved reaction time and set the appropriate toggle
         switch (PlayerPrefs.GetFloat("allow-save-click-as-prev"))
         {
             case 0:
@@ -135,7 +137,7 @@ public class SettingsMenager : MonoBehaviour
         }
     }
 
-    // Metody obsługi zmiany przełączników czasu reakcji
+    // Toggle change handlers...
     public void OnToggleNormalReactionTime()
     {
         if (normalReactionTime.isOn)
@@ -166,7 +168,7 @@ public class SettingsMenager : MonoBehaviour
 
     }
 
-    // Metoda do ustawiania czasu reakcji w PlayerPrefs
+    // Method to set reaction time in PlayerPrefs
     private void SetAllowSaveClickAsPrev(float reactionTime)
     {
         SetPref(ALLOW_SAVE_CLICK_AS_PREV_PREF, reactionTime);
@@ -176,14 +178,14 @@ public class SettingsMenager : MonoBehaviour
 
     #region User Tutorial and Settings
 
-    // Metoda do aktualizacji przełączników tutorialu i ustawień
+    // Method to update tutorial and settings toggles
     public void UpdateTutorialandSettingsToggles()
     {
         userSettings.isOn = GetBoolPref("user-settings");
         userTutorial.isOn = GetBoolPref("user-tutorial");
     }
 
-    // Metody obsługi zmiany przełączników tutorialu i ustawień
+    // Toggle change handlers...
     public void OnToggleUserTutorial()
     {
          SetUserTutorial(userTutorial.isOn);
@@ -193,14 +195,14 @@ public class SettingsMenager : MonoBehaviour
         SetUserSettings(userSettings.isOn);
     }
 
-    // Metoda do ustawiania tutorialu w PlayerPrefs
+    // Method to set user tutorial in PlayerPrefs
     private void SetUserTutorial(bool status)
     {
         SetPref(USER_TUTORIAL_PREF, status);
 
     }
 
-    // Metoda do ustawiania ustawień w PlayerPrefs
+    // Method to set user settings in PlayerPrefs
     private void SetUserSettings(bool status)
     {
         SetPref(USER_SETTINGS_PREF, status);
@@ -210,7 +212,7 @@ public class SettingsMenager : MonoBehaviour
 
     #region Controlls
 
-    // Metoda do aktualizacji danych dotyczących sterowania
+    // Method to update control data
     public void UpdateControllsData()
     {
         mouse.isOn = GetBoolPref("mouse");
@@ -221,7 +223,7 @@ public class SettingsMenager : MonoBehaviour
 
     }
 
-    // Metody obsługi zmiany przełączników sterowania
+    // Methods to set control in PlayerPrefs
     public void OnToggleMouse()
     {
         if (mouse.isOn)
@@ -257,7 +259,7 @@ public class SettingsMenager : MonoBehaviour
         SetVoiceControll(voice.isOn);
     }
 
-    // Metody do ustawiania sterowania w PlayerPrefs
+    // Methods to set control in PlayerPrefs
     private void SetMouseControll(bool status)
     {
         SetPref(MOUSE_PREF, status);
@@ -274,10 +276,10 @@ public class SettingsMenager : MonoBehaviour
     #endregion
 
     #region Contrast
-    // Enumeracja do reprezentacji poziomów kontrastu
+    // Enumeration to represent contrast levels
     enum Contrast { normal, high, higher }
 
-    // Metoda do aktualizacji przełączników kontrastu
+    // Method to update contrast toggles
     public void UpdateContrastToggles()
     {
         switch (PlayerPrefs.GetInt("contrast"))
@@ -301,7 +303,7 @@ public class SettingsMenager : MonoBehaviour
         }
     }
 
-    // Metody obsługi zmiany przełączników kontrastu
+    // Toggle change handlers...
     public void OnToggleNormalContrast()
     {
         if (normalContrast.isOn == true)
@@ -334,7 +336,7 @@ public class SettingsMenager : MonoBehaviour
 
     }
 
-    // Metoda do ustawiania kontrastu w PlayerPrefs
+    // Method to set contrast in PlayerPrefs
     private void SetContrast(Contrast contrast)
     {
         if (contrast == Contrast.normal)
@@ -355,7 +357,7 @@ public class SettingsMenager : MonoBehaviour
 
     #region Brightness
 
-    // Metoda do aktualizacji przełączników jasności
+    // Method to update brightness toggles
     public void UpdateBrightnessToggles()
     {
         switch (PlayerPrefs.GetFloat("brightness"))
@@ -379,7 +381,7 @@ public class SettingsMenager : MonoBehaviour
         }
     }
 
-    // Metody obsługi zmiany przełączników jasności
+    // Toggle change handlers...
     public void OnToggleNormalBrightness()
     {
         if (normalBrightness.isOn)
@@ -410,7 +412,7 @@ public class SettingsMenager : MonoBehaviour
 
     }
 
-    // Metoda do ustawiania jasności w PlayerPrefs
+    // Method to set brightness in PlayerPrefs
     private void SetBrightness(float brightness)
     {
         SetPref(BRIGHTNESS_PREF, brightness);
@@ -419,10 +421,10 @@ public class SettingsMenager : MonoBehaviour
 
     #region FontSize
 
-    // Enumeracja do reprezentacji rozmiarów czcionki
+    // Enumeration to represent font size levels
     enum FontSize { normal, big, bigger }
 
-    // Metoda do aktualizacji przełączników rozmiaru czcionki
+    // Method to update font size toggles
     public void UpdateFontSizeToggles()
     {
         switch (PlayerPrefs.GetInt("font-size"))
@@ -446,7 +448,7 @@ public class SettingsMenager : MonoBehaviour
         }
     }
 
-    // Metody obsługi zmiany przełączników rozmiaru czcionki
+    // Toggle change handlers...
     public void OnToggleFontSizeNormal()
     {
         if (normalFontSize.isOn == true)
@@ -477,7 +479,7 @@ public class SettingsMenager : MonoBehaviour
 
     }
 
-    // Metoda do ustawiania rozmiaru czcionki w PlayerPrefs
+    // Method to set font size in PlayerPrefs
     private void SetFontSize(FontSize fontSize)
     {
         if (fontSize == FontSize.normal)
@@ -513,7 +515,8 @@ public class SettingsMenager : MonoBehaviour
     #endregion
 
     #region FolderName
-    // Metoda do aktualizacji danych dotyczących folderu
+
+    // Method to update folder data
     public void UpdateFolderData()
     {
         for (int i = 0; i < foldersDropdown.options.Count; i++)
@@ -527,12 +530,13 @@ public class SettingsMenager : MonoBehaviour
 
     }
 
-    // Metoda obsługi zmiany wartości w rozwijanym menu dotyczącym folderu
+    // Dropdown change handler...
     public void OnDropdownFolderName()
     {
         SetFolderName(foldersDropdown.options[foldersDropdown.value].text);
     }
-    // Metoda do ustawiania nazwy folderu w PlayerPrefs
+
+    // Method to set folder name in PlayerPrefs
     public void SetFolderName(string folderName)
     {
         SetPref(IMAGES_FOLDER_NAME_PREF, folderName);
@@ -542,13 +546,13 @@ public class SettingsMenager : MonoBehaviour
 
     #region ImagesCount
 
-    // Metoda obsługi zmiany wartości w rozwijanym menu dotyczącym liczby obrazów
+    // Dropdown change handler...
     public void OnDropdownImagesCount()
     {
         SetImagesCount(int.Parse(imagesCountDropdown.options[imagesCountDropdown.value].text));
     }
 
-    // Metoda do ustawiania liczby obrazów w PlayerPrefs
+    // Method to set images count in PlayerPrefs
     private void SetImagesCount(int imagesCount)
     {
         SetPref(IMAGES_NUMBER_PREF, imagesCount);
@@ -557,7 +561,7 @@ public class SettingsMenager : MonoBehaviour
 
     #region TimeBetweenPhotos
 
-    // Metoda do aktualizacji maksymalnego czasu między obrazami
+    // Method to update max time between images
     public void UpdateMaxTimeBetweenImages()
     {
         if (float.Parse(imagesMaxTime.options[imagesMaxTime.value].text) >= float.Parse(imagesMinTime.options[imagesMinTime.value].text))
@@ -571,7 +575,7 @@ public class SettingsMenager : MonoBehaviour
         
     }
 
-    // Metoda do aktualizacji minimalnego czasu między obrazami
+    // Method to update min time between images
     public void UpdateMinTimeBetweenImages()
     {
         if (float.Parse(imagesMaxTime.options[imagesMaxTime.value].text) >= float.Parse(imagesMinTime.options[imagesMinTime.value].text))
@@ -584,14 +588,14 @@ public class SettingsMenager : MonoBehaviour
         }
     }
 
-    // Metoda do ustawiania maksymalnego czasu między obrazami w PlayerPrefs
+    // Method to set max time between images in PlayerPrefs
     private void SetMaxTimeBetweenImages(float maxTime)
     {
         SetPref(MAX_TIME_BETWEEN_IMAGES_PREF, maxTime);
 
     }
 
-    // Metoda do ustawiania minimalnego czasu między obrazami w PlayerPrefs
+    // Method to set min time between images in PlayerPrefs
     private void SetMinTimeBetweenImages(float minTime)
     {
         SetPref(MIN_TIME_BETWEEN_IMAGES_PREF, minTime);
@@ -601,7 +605,7 @@ public class SettingsMenager : MonoBehaviour
 
     #region ImagesRepeatedPercent
 
-    // Metoda do aktualizacji procentu czasu powtarzania obrazów
+    // Method to update percentage of time for repeated images
     public void UpdatePartRepeatedPercent()
     {
         SetPref(PART_REPEATED_PERCENT_PREF, float.Parse(imagesPercentTime.options[imagesPercentTime.value].text));
@@ -610,31 +614,27 @@ public class SettingsMenager : MonoBehaviour
 
     #region Pref Setters
 
-    // Metoda do ustawiania preferencji liczbowych w PlayerPrefs
+    // Methods to set preferences in PlayerPrefs...
     private void SetPref(string key, float value)
     {
         PlayerPrefs.SetFloat(key,value);
     }
 
-    // Metoda do ustawiania preferencji tekstowych w PlayerPrefs
     private void SetPref(string key, string value)
     {
         PlayerPrefs.SetString(key, value);
     }
 
-    // Metoda do ustawiania preferencji liczbowych całkowitoliczbowych w PlayerPrefs
     private void SetPref(string key, int value)
     {
         PlayerPrefs.SetInt(key, value);
     }
 
-    // Metoda do ustawiania preferencji boolowskich w PlayerPrefs
     private void SetPref(string key, bool value)
     {
         PlayerPrefs.SetInt(key, Convert.ToInt32(value));
     }
 
-    // Metoda do pobierania preferencji boolowskich z PlayerPrefs
     public bool GetBoolPref(string key, bool defaultValue = true)
     {
         return Convert.ToBoolean(PlayerPrefs.GetInt(key, Convert.ToInt32(defaultValue)));

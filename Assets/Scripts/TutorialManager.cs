@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
@@ -11,39 +11,46 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows.Speech;
 
+/// <summary>
+/// Class responsible for managing the tutorial.
+/// </summary>
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] Image examFrame;
+    // Mouse and keyboard images
     [SerializeField] Image mouse;
     [SerializeField] Image mouse2;
     [SerializeField] Image keyboard;
     [SerializeField] Image keyboard2;
     [SerializeField] Image mouseAndKeyboard;
     [SerializeField] Image mouseAndKeyboard2;
+    [SerializeField] Image examFrame;
 
-    [SerializeField] Button buttonNext;
+    [SerializeField] Button buttonNext; // Button to move to the next tutorial section
 
-    [SerializeField] private Image imageFrame;
+    [SerializeField] private Image imageFrame; // Image frame for the tutorial image
 
-    public SettingsMenager sM;
+    public SettingsMenager sM;// Game settings manager
 
+    // Mode toggles
     public Toggle normal;
     public Toggle high;
     public Toggle higher;
 
-    private bool finished = false;
-    private bool whiteToYellow = false;
-    float lerpValue = 0f;
-    float lerpDuration = 0.5f;
+    private bool finished = false; // Flag indicating the completion of the first part of the tutorial
+    private bool whiteToYellow = false;// Flag for changing the frame color from white to yellow
+    float lerpValue = 0f; // Lerp interpolation value
+    float lerpDuration = 0.5f; // Interpolation duration
 
 
 
+    // Method called when the game starts
     void Start()
     {
 
-        examFrame.gameObject.SetActive(false);
-        finished = false;
+        examFrame.gameObject.SetActive(false);// Disable the frame containing the tutorial text
+        finished = false;// Set the flag to false
 
+        // Choose the appropriate images based on mouse and keyboard settings
         if (sM.GetBoolPref("keyboard") && !sM.GetBoolPref("mouse"))
         {
             mouse.gameObject.SetActive(true);
@@ -79,18 +86,20 @@ public class TutorialManager : MonoBehaviour
 
     }
 
+    // Method called every frame
     void Update()
     {
         if (finished)
         {
             examFrame.gameObject.SetActive(true);
 
-
+            // User interaction handling based on mouse and keyboard settings
             if ((Input.GetMouseButtonDown(0) && sM.GetBoolPref("mouse")) || (Input.GetKeyDown(KeyCode.Space) && sM.GetBoolPref("keyboard")))
             {
                 whiteToYellow = true;
             }
 
+            // White to yellow color change effect
             if (whiteToYellow)
             {
                 if (lerpValue < 1)
@@ -106,27 +115,30 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
+        // Handling the Escape key - return to the main menu
         if (Input.GetKeyDown("escape"))
             SceneManager.LoadScene("MainMenu");
 
+        // Handling the Right Arrow key - move to the next toggle
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             NextToggle();
         }
 
+        // Handling the Left Arrow key - move to the previous toggle
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             PrevToggle();
         }
 
-
+        // Handling Enter or Keypad Enter keys - move to the next scene
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             GoToTheNextScene();
         }
     }
 
-
+    // Method to move to the next toggle
     public void NextToggle()
     {
         if (normal.isOn)
@@ -141,6 +153,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // Method to move to the previous toggle
     public void PrevToggle()
     {
         if (higher.isOn)
@@ -155,6 +168,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // Toggle change handling methods
     public void OnToggleNormal()
     {
         if (normal.isOn)
@@ -180,7 +194,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-
+    // Handles moving to the next scene depending on the tutorial completion.
     public void GoToTheNextScene()
     {
         if (!finished)

@@ -2,21 +2,37 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-// Klasa odpowiedzialna za zapisanie ogólnych wyników do formatu JSON
+/// <summary>
+/// Class responsible for saving overall results to JSON format.
+/// </summary>
 public class SaveOverallResultsToJson
 {
-    // Listy do przechowywania danych Click, ImageInfo i kolejności obrazów
+    /// <summary>
+    /// List to store Click data.
+    /// </summary>
     public List<Click> clicks = new();
+
+    /// <summary>
+    /// List to store ImageInfo data.
+    /// </summary>
     public List<ImageInfo> imageInfo = new();
+
+    /// <summary>
+    /// List to store the order of images.
+    /// </summary>
     public List<int> imagesOrder = new();
 
-    // Konwertuje dane Click na sformatowany ciąg znaków
+
+    /// <summary>
+    /// Converts Click data to a formatted string.
+    /// </summary>
+    /// <returns>Formatted string containing Click data.</returns>
     public string ClicksToString()
     {
         string s = "";
         foreach (Click c in clicks)
         {
-            // Dołącza dane Click do ciągu znaków z separatorem średnika
+            // Concatenate Click data to the string with a semicolon separator
             s += c.wasCorrect.ToString() + ";";
             s += c.firstClick.ToString() + ";";
             s += c.orderInAppearence.ToString() + ";";
@@ -29,16 +45,19 @@ public class SaveOverallResultsToJson
         return s;
     }
 
-    // Konwertuje dane ImageInfo na sformatowany ciąg znaków
+    /// <summary>
+    /// Converts ImageInfo data to a formatted string.
+    /// </summary>
+    /// <returns>Formatted string containing ImageInfo data.</returns>
     public string ImageInfoToString()
     {
         string s = "";
         foreach (ImageInfo im in imageInfo)
         {
-            // Dołącza dane ImageInfo do ciągu znaków z separatorem średnika
+            // Concatenate ImageInfo data to the string with a semicolon separator
             s += im.id.ToString() + ";";
 
-            // Dołącza czas pojawienia się z separatorem przecinka
+            // Concatenate time of appearance with a comma separator
             foreach (float t in im.timeOfAppearence)
             {
                 s += t.ToString();
@@ -49,7 +68,7 @@ public class SaveOverallResultsToJson
             }
             s += ";";
 
-            // Dołącza czas zniknięcia z separatorem przecinka
+            // Concatenate time of disappearance with a comma separator
             foreach (float t in im.timeOfDisappearence)
             {
                 s += t.ToString();
@@ -60,21 +79,24 @@ public class SaveOverallResultsToJson
             }
             s += ";";
 
-            s += "\n"; // Przechodzi do nowej linii dla kolejnych danych ImageInfo
+            s += "\n"; // Move to a new line for the next ImageInfo data
         }
         return s;
     }
 
-    // Konwertuje dane kolejności obrazów na sformatowany ciąg znaków
+    /// <summary>
+    /// Converts image order data to a formatted string.
+    /// </summary>
+    /// <returns>Formatted string containing image order data.</returns>
     public string ImageOrderToString()
     {
         string s = "";
         foreach (int im in imagesOrder)
         {
-            // Dołącza dane kolejności obrazów do ciągu znaków z separatorem średnika
+            // Concatenate image order data to the string with a semicolon separator
             s += im.ToString() + ";";
         }
-        s += "\n"; // Przechodzi do nowej linii dla kolejnych danych kolejności obrazów
+        s += "\n"; // Move to a new line for the next image order data
         return s;
     }
 }

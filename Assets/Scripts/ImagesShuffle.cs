@@ -3,7 +3,10 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-// Klasa odpowiedzialna za tasowanie listy identyfikatorów obrazów z uwzględnieniem powtarzających się elementów.
+
+/// <summary>
+/// Class responsible for shuffling a list of image identifiers with consideration for repeated elements.
+/// </summary>
 public class ImagesShuffle
 {
     private List<int> imagesDisplayOrder = new List<int>();
@@ -14,7 +17,12 @@ public class ImagesShuffle
     int a, b = 0;
     String message;
 
-    // Metoda tworząca nową listę obrazów z uwzględnieniem powtarzających się obrazów.
+    /// <summary>
+    /// Creates a new list of image identifiers considering repeated images.
+    /// </summary>
+    /// <param name="numberOfImages">Total number of images.</param>
+    /// <param name="partRepeatedPercent">Percentage of images to be repeated.</param>
+    /// <returns>New list of image identifiers.</returns>
     public List<int> CreateNewImageList(int numberOfImages, double partRepeatedPercent)
     {
         a = 0; b=0;
@@ -119,7 +127,11 @@ public class ImagesShuffle
         return imagesDisplayOrder;
     }
 
-    // Metoda tworząca tymczasową listę identyfikatorów obrazów.
+    /// <summary>
+    /// Creates a temporary list of image identifiers.
+    /// </summary>
+    /// <param name="numberOfImages">Total number of images.</param>
+    /// <param name="partRepeatedPercent">Percentage of images to be repeated.</param>
     private void CreateTempImageIdLists(int numberOfImages, double partRepeatedPercent)
     {
         int partToRepeat = 0;
@@ -141,7 +153,10 @@ public class ImagesShuffle
 
     }
 
-    // Metoda losująca elementy na liście.
+    /// <summary>
+    /// Randomly shuffles the elements in the list.
+    /// </summary>
+    /// <param name="list">List to be shuffled.</param>
     void RandomiseList(List<int> list) {
 
         int length = list.Count;
@@ -155,7 +170,10 @@ public class ImagesShuffle
         }
     }
 
-    // Metoda poprawiająca listę z powtarzającymi się elementami.
+    /// <summary>
+    /// Corrects the list with repeated elements.
+    /// </summary>
+    /// <param name="list">List to be corrected.</param>
     void CorrectRepeatedList(List<int> list)
     {
         for(int i = 1; i < list.Count-1; i++)
@@ -196,20 +214,27 @@ public class ImagesShuffle
         }
     }
 
-    // Metoda wywoływana na początku, inicjująca tasowanie obrazów.
+    /// <summary>
+    /// Initializes the image shuffling.
+    /// </summary>
     private void Start()
     {
         Start(imagesDisplayOrder);
     }
 
-    // Metoda wywołująca tasowanie obrazów i wyświetlająca komunikat z posortowaną listą.
+    /// <summary>
+    /// Invokes the image shuffling and displays a message with the sorted list.
+    /// </summary>
     void Start(List<int> imagesDisplayOrder)
     {
         //CreateNewImageList();
         //displayListMessage(imagesDisplayOrder);
     }
 
-    // Metoda wyświetlająca komunikat z listą identyfikatorów obrazów.
+    /// <summary>
+    /// Displays a message with the list of image identifiers.
+    /// </summary>
+    /// <param name="list">List of image identifiers.</param>
     void displayListMessage(List<int> list)
     {
         message = "";
@@ -220,7 +245,9 @@ public class ImagesShuffle
         Debug.Log(message);
     }
 
-    // Metoda czyszcząca wszystkie listy w klasie.
+    /// <summary>
+    /// Clears all lists in the class.
+    /// </summary>
     void ClearAllLists(){
 
         imagesDisplayOrder.Clear();

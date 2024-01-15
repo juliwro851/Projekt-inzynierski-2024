@@ -7,6 +7,9 @@ using UnityEngine.UI;
 using System;
 using Unity.VisualScripting;
 
+/// <summary>
+/// Class managing the display of results and statistics.
+/// </summary>
 public class DisplayMenager : MonoBehaviour
 {
     [SerializeField] Image resultsFrame;
@@ -28,6 +31,9 @@ public class DisplayMenager : MonoBehaviour
     private SaveSimpleResultsToJson SSRTJ;
     private bool displayed = false;
 
+    /// <summary>
+    /// Initialization method called at the start of the game.
+    /// </summary>
     void Start()
     {
         ACD = new AnalyseCollectedData();
@@ -38,6 +44,9 @@ public class DisplayMenager : MonoBehaviour
         displayed = false;
     }
 
+    /// <summary>
+    /// Update method called every frame.
+    /// </summary>
     void Update()
     {
         if (ChangeImagesAtTime.finished)
@@ -139,6 +148,11 @@ public class DisplayMenager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates a file name based on the current date and time.
+    /// </summary>
+    /// <param name="isOverall">Specifies if the file is for overall results.</param>
+    /// <returns>The generated file name.</returns>
     public string CreateFileName(bool isOverall)
     {
         string fileName = "new.json";

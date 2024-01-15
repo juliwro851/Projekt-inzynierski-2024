@@ -4,33 +4,40 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Klasa zarządzająca sceną wyników, dziedziczy z klasy Singleton<MainMenuMenager>
+/// <summary>
+/// Class responsible for managing the results scene, inherits from the Singleton<MainMenuMenager> class.
+/// </summary>
 public class ResultsSceneMenager : Singleton<MainMenuMenager>
 {
-    [SerializeField] Image countdownFrame; // Obrazek ramki odliczania
-    [SerializeField] ShowResults sR;  // Obiekt klasy ShowResults do wyświetlania wyników
+    [SerializeField] Image countdownFrame; // Image of the countdown frame
+    [SerializeField] ShowResults sR;  // Object of the ShowResults class for displaying results
 
-    // Metoda do ładowania głównego menu
+    /// <summary>
+    /// Method to load the main menu.
+    /// </summary>
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
 
     }
 
-    // Metoda do ładowania wyników (metoda oznaczona jako przestarzała)
+    /// <summary>
+    /// Method to load results (marked as obsolete).
+    /// </summary>
     [System.Obsolete]
     public void LoadResults()
     {
-        sR.SelectNewProgram();  // Wywołanie metody SelectNewProgram() na obiekcie sR
+        sR.SelectNewProgram(); // Call the SelectNewProgram() method on the sR object
+}
 
-    }
-
-    // Metoda wywoływana co klatkę
+    /// <summary>
+    /// Method called every frame.
+    /// </summary>
     private void Update()
     {
-        // Sprawdzenie, czy został naciśnięty klawisz "Escape"
+        // Check if the "Escape" key has been pressed
         if (Input.GetKeyDown("escape"))
-            SceneManager.LoadScene("MainMenu"); // Wczytanie głównego menu
+            SceneManager.LoadScene("MainMenu"); // Load the main menu
     }
 
 

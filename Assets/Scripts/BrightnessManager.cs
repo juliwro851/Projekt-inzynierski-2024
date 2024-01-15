@@ -4,45 +4,66 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
-
-// Klasa zarządzająca ustawieniami jasności i kontrastu za pomocą efektów post-processingu
+/// <summary>
+/// Class managing brightness and contrast settings using post-processing effects.
+/// </summary>
 public class BrightnessManager : MonoBehaviour
 {
-    // Referencje do profili post-processingu i warstwy post-processingu
+    /// <summary>
+    /// Reference to the post-processing profile for brightness.
+    /// </summary>
     public PostProcessProfile brightness;
+
+    /// <summary>
+    /// Reference to the post-processing profile for contrast.
+    /// </summary>
     public PostProcessProfile contrast;
+
+    /// <summary>
+    /// Reference to the post-processing layer.
+    /// </summary>
     public PostProcessLayer layer;
 
-    // Referencje do ustawień AutoExposure i ColorGrading
+    /// <summary>
+    /// Reference to AutoExposure settings.
+    /// </summary>
     AutoExposure exposure;
+
+    /// <summary>
+    /// Reference to ColorGrading settings.
+    /// </summary>
     ColorGrading contr;
 
-    // Metoda wywoływana przy starcie obiektu
+    /// <summary>
+    /// Method called on object start.
+    /// </summary>
     void Start()
     {
-        // Sprawdź, czy aktualna scena to "UserSettingsBrightness"
+        // Check if the current scene is "UserSettingsBrightness"
         if (SceneManager.GetActiveScene().name == "UserSettingsBrightness")
         {
-            // Jeśli tak, pobierz ustawienia AutoExposure
+            // If yes, retrieve AutoExposure settings
             brightness.TryGetSettings(out exposure);
 
-            // Dostosuj jasność
+            // Adjust brightness
             AdjustBrightness();
         }
         else
         {
-            // Jeśli nie, pobierz ustawienia ColorGrading
+            // If not, retrieve ColorGrading settings
             contrast.TryGetSettings(out contr);
 
-            // Dostosuj kontrast
+            // Adjust contrast
             AdjustContrast();
         }
     }
 
-    // Metoda do dostosowywania jasności
+    /// <summary>
+    /// Method for adjusting brightness.
+    /// </summary>
     public void AdjustBrightness()
     {
-        // Ustaw jasność na zapisaną wartość, jeśli jest większa lub równa 1; w przeciwnym razie ustaw na 1
+        // Set brightness to the saved value if greater than or equal to 1; otherwise, set it to 1
         if (PlayerPrefs.GetFloat("brightness")>=1)
             exposure.keyValue.value = PlayerPrefs.GetFloat("brightness");
         else
@@ -50,10 +71,12 @@ public class BrightnessManager : MonoBehaviour
 
     }
 
-    // Metoda do dostosowywania kontrastu
+    /// <summary>
+    /// Method for adjusting contrast.
+    /// </summary>
     public void AdjustContrast()
     {
-        // Pobierz ustawiony przez gracza kontrast z PlayerPrefs i staw kontrast na zapisaną wartość
+        // Get the player-set contrast from PlayerPrefs and set the contrast to the saved value
         contr.contrast.value = PlayerPrefs.GetInt("contrast");
     }
 }

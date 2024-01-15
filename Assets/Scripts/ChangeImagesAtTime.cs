@@ -7,35 +7,38 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
 
+/// <summary>
+/// Manages the change of images during the test and captures user interactions.
+/// </summary>
 public class ChangeImagesAtTime : MonoBehaviour
 {
-    [SerializeField] public static List<Texture2D> textures;
-    [SerializeField] private RawImage imageSlot;
-    [SerializeField] private Image imageFrame;
-    [SerializeField] private static int numberOfImages = 10;
-    [SerializeField] private double partRepeatedPercent = 0.4;
+    [SerializeField] public static List<Texture2D> textures;// List of textures used for images.
+    [SerializeField] private RawImage imageSlot; // Slot for displaying images.
+    [SerializeField] private Image imageFrame; // Frame around the displayed image.
+    [SerializeField] private static int numberOfImages = 10; // Number of images to be displayed.
+    [SerializeField] private double partRepeatedPercent = 0.4; // Percentage of repeated images.
 
-    private static ChangeImagesAtTime obj;
+    private static ChangeImagesAtTime obj; // Reference to the instance of the class.
     //private ImagesShuffle imagShuff = obj.AddComponent<ImagesShuffle>();
 
-    private KeywordRecognizer keywordRecognizer;
-    private Dictionary<string, Action> dictionary = new Dictionary<string, Action>();
+    private KeywordRecognizer keywordRecognizer; // Recognizer for voice commands.
+    private Dictionary<string, Action> dictionary = new Dictionary<string, Action>(); // Dictionary for voice commands.
 
-    private static ImagesShuffle imagShuff = new ImagesShuffle();
-    private AnalyseCollectedData ACD = new AnalyseCollectedData();
-    public static List<ImageInfo> shownImagesInfo = new List<ImageInfo>();
-    public static List<Click> clicks = new List<Click>();
-    public static List<int> imagesOrder = new List<int>();
+    private static ImagesShuffle imagShuff = new ImagesShuffle(); // Instance of the image shuffling class.
+    private AnalyseCollectedData ACD = new AnalyseCollectedData(); // Instance of data analysis class.
+    public static List<ImageInfo> shownImagesInfo = new List<ImageInfo>(); // List of information about displayed images.
+    public static List<Click> clicks = new List<Click>(); // List of user clicks.
+    public static List<int> imagesOrder = new List<int>(); // Order of displayed images.
     bool whiteToYellow, nextPictureShown = false;
     bool found = false;
     bool firstClick = false;
-    public static bool finished = false;
-    public static bool noClicks = true;
-    private SettingsMenager sM;
+    public static bool finished = false; // Indicates whether the test is finished.
+    public static bool noClicks = true; // Indicates whether there are no user clicks.
+    private SettingsMenager sM; // Instance of settings manager.
 
 
-    float lerpValue = 0f;
-    float lerpDuration = 0.5f;
+    float lerpValue = 0f; // Value used for color interpolation.
+    float lerpDuration = 0.5f; // Duration of color interpolation.
     int displayedId = 0;
 
     private void Awake()

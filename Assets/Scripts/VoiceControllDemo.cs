@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +6,26 @@ using UnityEngine;
 using UnityEngine.Windows.Speech;
 
 /// <summary>
-/// Class created to test voice control.
+/// Class demonstrating voice control functionality using the KeywordRecognizer.
 /// </summary>
 public class VoiceControllDemo : MonoBehaviour
 {
-    private KeywordRecognizer keywordRecognizer; // Keyword recognizer for voice commands
+    /// <summary>
+    /// KeywordRecognizer for recognizing voice commands.
+    /// </summary>
+    private KeywordRecognizer keywordRecognizer;
+
+    /// <summary>
+    /// Dictionary to map voice commands to corresponding action methods.
+    /// </summary>
     private Dictionary<string, Action> dictionary = new Dictionary<string, Action>();
 
     /// <summary>
-    /// Method called when the game starts.
+    /// Method called when the script starts.
     /// </summary>
     private void Start()
     {
-        // Adding voice commands and their associated actions to the dictionary
+        // Populate the dictionary with voice commands and corresponding actions
         Debug.Log("On");
         dictionary.Add("level", Left);
         dictionary.Add("problem", Right);
@@ -26,28 +33,27 @@ public class VoiceControllDemo : MonoBehaviour
         dictionary.Add("talk", Right);
         dictionary.Add("dalei", Right);
 
-        // Initializing the keyword recognizer
+        // Initialize the KeywordRecognizer with the dictionary keys (voice commands)
         keywordRecognizer = new KeywordRecognizer(dictionary.Keys.ToArray());
-
-        // Assigning the OnPhraseRecognized method to the OnPhraseRecognized event of the keyword recognizer
         keywordRecognizer.OnPhraseRecognized += OnVoiceRecognized;
-
-        // Starting voice command recognition
         keywordRecognizer.Start();
     }
 
     /// <summary>
-    /// Method called after a voice command is recognized.
+    /// Method called when a voice command is recognized.
     /// </summary>
     /// <param name="speech">Information about the recognized phrase.</param>
     private void OnVoiceRecognized(PhraseRecognizedEventArgs speech)
     {
-        Debug.Log(speech.text); // Displaying the recognized voice command in the console
-        dictionary[speech.text].Invoke(); // Calling the associated action based on the recognized command
+        // Log the recognized phrase
+        Debug.Log(speech.text);
+
+        // Invoke the corresponding action based on the recognized phrase
+        dictionary[speech.text].Invoke();
     }
 
     /// <summary>
-    /// Moves the object to the right.
+    /// Action method to move the GameObject to the right.
     /// </summary>
     private void Right()
     {
@@ -55,43 +61,11 @@ public class VoiceControllDemo : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the object to the left.
+    /// Action method to move the GameObject to the left.
     /// </summary>
-    private void Left() 
+    private void Left()
     {
         transform.Translate(-1, 0, 0);
-    }
-
-    /// <summary>
-    /// Moves the object forward.
-    /// </summary>
-    private void Foreward()
-    {
-        transform.Translate(1, 0, 0);
-    }
-
-    /// <summary>
-    /// Moves the object backward.
-    /// </summary>
-    private void Back()
-    {
-        transform.Translate(-1, 0, 0);
-    }
-
-    /// <summary>
-    /// Raises the object.
-    /// </summary>
-    private void Up()
-    {
-        transform.Translate(0, 1, 0);
-    }
-
-    /// <summary>
-    /// Lowers the object.
-    /// </summary>
-    private void Down()
-    {
-        transform.Translate(0, -1, 0);
     }
 
 

@@ -5,13 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Klasa zarządzająca głównym menu, dziedziczy z klasy Singleton<MainMenuMenager>
+/// <summary>
+/// Class managing the main menu, inheriting from the Singleton<MainMenuMenager> class.
+/// </summary>
 public class MainMenuMenager : Singleton<MainMenuMenager>
 {
-    [SerializeField] public Toggle settingsToggle; // Przełącznik dla ustawień
-    [SerializeField] public Toggle tutorialToggle; // Przełącznik dla tutorialu
+    [SerializeField] public Toggle settingsToggle; // Toggle for settings
+    [SerializeField] public Toggle tutorialToggle; // Toggle for tutorial
 
-    // Metoda do ładowania egzaminu na podstawie ustawień użytkownika
+    /// <summary>
+    /// Loads the start of the exam based on user settings.
+    /// </summary>
     public void LoadStartExam()
     {
         if (tutorialToggle.isOn)
@@ -27,19 +31,25 @@ public class MainMenuMenager : Singleton<MainMenuMenager>
             SceneManager.LoadScene("Countdown");
     }
 
-    // Metoda do ładowania ustawień egzaminatora
+    /// <summary>
+    /// Loads the examiner settings.
+    /// </summary>
     public void LoadExaminatorSettings()
     {
         SceneManager.LoadScene("ExaminatorSettings");
     }
 
-    // Metoda do ładowania wyników
+    /// <summary>
+    /// Loads the results.
+    /// </summary>
     public void LoadResults()
     {
         SceneManager.LoadScene("Results");
     }
 
-    // Metoda do wyjścia z programu
+    /// <summary>
+    /// Exits the program.
+    /// </summary>
     public void ExitProgram()
     {
         Application.Quit();

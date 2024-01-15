@@ -3,40 +3,62 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-// Klasa przechowująca informacje o obrazie.
+/// <summary>
+/// Class storing information about an image.
+/// </summary>
 public class ImageInfo
 {
-    // Unikalny identyfikator obrazu.
+    /// <summary>
+    /// Unique identifier of the image.
+    /// </summary>
     public int id = -1;
-    // Tekstura używana w obrazie.
+    /// <summary>
+    /// Texture used in the image.
+    /// </summary>
     public Texture usedTexture;
-    // Lista identyfikatorów wyświetlań, w których pojawił się obraz.
+    /// <summary>
+    /// List of display identifiers where the image appeared.
+    /// </summary>
     public List<int> displayId = new List<int>();
-    // Lista czasów pojawienia się obrazu w poszczególnych wyświetlaniach.
+    /// <summary>
+    /// List of times when the image appeared in individual displays.
+    /// </summary>
     public List<float> timeOfAppearence = new List<float>();
-    // Lista czasów zniknięcia obrazu z poszczególnych wyświetlaniach.
+    /// <summary>
+    /// List of times when the image disappeared from individual displays.
+    /// </summary>
     public List<float> timeOfDisappearence = new List<float>();
 
 
-    // Metoda statyczna do pobierania informacji o obrazie na podstawie id.
+    /// <summary>
+    /// Static method to retrieve image information based on its identifier.
+    /// </summary>
+    /// <param name="list">List of ImageInfo instances.</param>
+    /// <param name="id">Image identifier.</param>
+    /// <returns>ImageInfo instance corresponding to the provided id, or an empty instance if not found.</returns>
     public ImageInfo GetImageInfoById(List<ImageInfo> list, int id)
     {
         ImageInfo info = new ImageInfo();
 
         foreach (ImageInfo item in list)
         {
-            // Sprawdzenie, czy identyfikator obrazu zgadza się z żądanym id.
+            // Check if the image identifier matches the requested id.
             if (item.id == id)
             {
                 return item;
             }
 
         }
-        // Zwrócenie pustej instancji ImageInfo, jeśli nie znaleziono pasującego id.
+        // Return an empty ImageInfo instance if no matching id is found.
         return info;
     }
 
-    // Metoda statyczna do pobierania informacji o obrazie na podstawie displayId.
+    /// <summary>
+    /// Static method to retrieve image information based on display identifier.
+    /// </summary>
+    /// <param name="list">List of ImageInfo instances.</param>
+    /// <param name="displayId">Display identifier.</param>
+    /// <returns>ImageInfo instance corresponding to the provided displayId, or an empty instance if not found.</returns>
     public ImageInfo GetImageInfoByDisplayId(List<ImageInfo> list, int displayId)
     {
         ImageInfo info = new ImageInfo();
@@ -45,14 +67,14 @@ public class ImageInfo
         {
             foreach (int id in item.displayId)
             {
-                // Sprawdzenie, czy lista DisplayIds zawiera żądane displayId.
+                // Check if the DisplayIds list contains the requested displayId.
                 if (id == displayId)
                 {
                     return item;
                 }
             }
         }
-        // Zwrócenie pustej instancji ImageInfo, jeśli nie znaleziono pasującego displayId.
+        // Return an empty ImageInfo instance if no matching displayId is found.
         return info;
     }
 
